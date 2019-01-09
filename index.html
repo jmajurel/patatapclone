@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Patatap Clone</title>
+    <script type="text/javascript" src="js/lib/paperjs/dist/paper-full.min.js"></script>
+    <script type="text/javascript" src="js/lib/howler.js/dist/howler.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/paperscript" canvas="myCanvas">
+      var keys = {
+        q: {
+          color: 'lightblue',
+          sound: new Howl ({
+            src: ['sounds/sounds/bubbles.mp3']
+          })
+        },
+        w: {
+          color: 'pink',
+          sound: new Howl ({
+            src: ['sounds/sounds/clay.mp3']
+          })
+        },
+        e: {
+          color: 'orange',
+          sound: new Howl ({
+            src: ['sounds/sounds/confetti.mp3']
+          })
+        },
+        dft: {
+          color: 'green',
+          sound: new Howl ({
+            src: ['sounds/sounds/corona.mp3']
+          })
+        }
+      };
+      var circles = [];
+
+      function onKeyDown(event) {
+      //generate new circle
+        var maxPoint = new Point(view.size);
+	var newCircle = new Path.Circle(Point.random() * maxPoint, 500);
+        if(event.key in keys) {
+	  newCircle.fillColor = keys[event.key].color;
+          keys[event.key].sound.play();
+	} else {
+          newCircle.fillColor = keys['dft'].color;
+          keys['dft'].sound.play();
+        }
+        circles.push(newCircle);
+        circles.forEach( function(cl) {
+          console.log(cl)
+	});
+
+      }
+
+      function onFrame(event) {
+        circles.forEach(function(cl) {
+          cl.scale(0.9); 
+	});
+      }
+
+    </script>
+  </head>
+  <body>
+    <canvas id="myCanvas" resize></canvas>
+  </body>
+</html>
